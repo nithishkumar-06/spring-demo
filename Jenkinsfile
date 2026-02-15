@@ -11,19 +11,20 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh 'chmod +x mvnw'
+                sh './mvnw clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh './mvnw test'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn package'
+                sh './mvnw package'
             }
         }
 
