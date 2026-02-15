@@ -16,15 +16,29 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Approval') {
+            options {
+                timeout(time: 2, unit: 'MINUTES')
+            }
             steps {
-                sh './mvnw test'
+                input message: 'Deploy to Production?', ok: 'Yes, Deploy'
             }
         }
 
-        stage('Package') {
-            steps {
-                sh './mvnw package'
+
+        stage('Parallel stages') {
+            parallel {
+                stage('Test') {
+                    steps {
+                        sh './mvnw test'
+                    }
+                }
+
+                stage('Package') {
+                    steps {
+                        sh './mvnw package'
+                    }
+                }
             }
         }
 
